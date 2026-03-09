@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YHWH i Entropia — O Stawaniu się Rzeczywistości</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'$',right:'$',display:false}
+  ],throwOnError:false});"></script>
+
+<style>
+:root {
+  --void:      #f5f0e8;
+  --deep:      #ede7d9;
+  --panel:     #faf7f2;
+  --border:    rgba(140,100,30,0.18);
+  --gold:      #8a6a1a;
+  --gold-dim:  #b08a30;
+  --gold-pale: rgba(160,120,40,0.06);
+  --amber:     #a0700a;
+  --cyan:      #1a6e8a;
+  --rust:      #8a2a10;
+  --text:      #2c2416;
+  --text-soft: #6a5a3a;
+  --text-dim:  #c0ab88;
+  --display:   'Playfair Display', Georgia, serif;
+  --body:      'Crimson Pro', Georgia, serif;
+  --mono:      'Share Tech Mono', monospace;
+  --max:       760px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:18px;scroll-behavior:smooth;}
+body{background:var(--void);color:var(--text);font-family:var(--body);line-height:1.85;overflow-x:hidden;}
+
+body::after{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9000;opacity:0.25;mix-blend-mode:multiply;}
+
+#bar{position:fixed;top:0;left:0;height:1px;
+  background:linear-gradient(90deg,var(--gold-dim),var(--amber),var(--gold-dim));
+  width:0;z-index:8000;box-shadow:0 0 8px var(--gold);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  align-items:flex-start;padding:8rem 4rem 6rem;position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg, #f9f4eb 0%, #f0e8d4 50%, #ede3cc 100%);}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(140,100,30,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(140,100,30,0.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 20% 50%,black 0%,transparent 70%);}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(160,120,40,0.08) 0%,transparent 70%);
+  top:50%;left:-100px;transform:translateY(-50%);pointer-events:none;}
+
+.hero-eyebrow{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.3em;
+  color:var(--gold-dim);text-transform:uppercase;margin-bottom:2rem;
+  opacity:0;animation:rise 1s 0.2s forwards;}
+.hero h1{font-family:var(--display);font-size:clamp(2.8rem,6vw,5rem);font-weight:900;
+  line-height:1.0;letter-spacing:-0.02em;color:#1a1206;max-width:700px;
+  opacity:0;animation:rise 1s 0.4s forwards;}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-family:var(--display);font-style:italic;font-size:1.15rem;
+  color:var(--text-soft);margin-top:1.5rem;max-width:520px;line-height:1.6;
+  opacity:0;animation:rise 1s 0.6s forwards;}
+
+/* ── KaTeX hero formula box ── */
+.hero-katex{margin-top:3rem;padding:1.1rem 1.6rem;
+  border:1px solid var(--border);background:rgba(255,250,240,0.8);
+  display:inline-block;opacity:0;animation:rise 1s 0.8s forwards;
+  box-shadow:0 2px 16px rgba(140,100,30,0.08);}
+.hero-katex .katex{color:var(--gold);font-size:1.1rem;}
+
+.hero-scroll{position:absolute;bottom:3rem;left:4rem;
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:0.25em;
+  color:var(--text-dim);text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:flex-start;gap:0.5rem;
+  opacity:0;animation:rise 1s 1.2s forwards;}
+.hero-scroll-line{width:40px;height:1px;
+  background:linear-gradient(to right,var(--gold-dim),transparent);
+  animation:pulse-line 2s 1.5s infinite;}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+@keyframes pulse-line{0%,100%{opacity:.3;width:40px;}50%{opacity:1;width:70px;}}
+
+/* ── MAIN ── */
+.main{max-width:var(--max);margin:0 auto;padding:6rem 2rem 10rem;}
+
+.essay-section{margin-bottom:6rem;opacity:0;transform:translateY(20px);
+  transition:opacity 0.7s ease,transform 0.7s ease;}
+.essay-section.visible{opacity:1;transform:none;}
+
+.section-marker{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;}
+.section-marker-num{font-family:var(--mono);font-size:0.6rem;color:var(--gold-dim);
+  letter-spacing:0.2em;min-width:2rem;}
+.section-marker-line{flex:1;height:1px;
+  background:linear-gradient(to right,var(--border),transparent);}
+
+h2{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.1rem);font-weight:700;
+  line-height:1.2;color:#1a1206;margin-bottom:2rem;letter-spacing:-0.01em;}
+h2 em{color:var(--gold);font-style:italic;}
+
+p{font-size:1.05rem;color:var(--text);margin-bottom:1.4rem;
+  text-align:justify;hyphens:auto;}
+p:last-child{margin-bottom:0;}
+
+/* ── PULL QUOTE ── */
+.pq{border-left:2px solid var(--gold);padding:1.2rem 0 1.2rem 2rem;margin:2.5rem 0;position:relative;background:rgba(255,250,240,0.6);}
+.pq::before{content:'';position:absolute;left:-1px;top:0;width:1px;height:100%;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent);}
+.pq p{font-family:var(--display);font-style:italic;font-size:1.15rem;
+  color:var(--amber);text-align:left;margin:0;line-height:1.6;}
+
+/* ── FORMULA BOX (KaTeX) ── */
+.fbox{background:rgba(255,252,245,0.9);border:1px solid var(--border);border-left:3px solid var(--gold);
+  padding:1.4rem 1.6rem;margin:2rem 0;position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(140,100,30,0.07);}
+.fbox::before{content:attr(data-label);position:absolute;top:-1px;right:1rem;
+  font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;color:var(--gold-dim);
+  text-transform:uppercase;background:rgba(255,252,245,0.9);padding:0 0.5rem;}
+.fbox .katex-display{margin:0;text-align:left;}
+.fbox .katex-display>.katex{color:var(--gold);font-size:1.05rem;}
+.fbox .katex{color:var(--gold);}
+.fbox .fcomment{display:block;margin-top:0.8rem;font-size:0.82rem;
+  color:var(--text-soft);font-family:var(--body);font-style:italic;line-height:1.5;}
+
+/* ── SCIENCE NOTE ── */
+.snote{background:rgba(26,110,138,0.04);border:1px solid rgba(26,110,138,0.18);
+  padding:1.2rem 1.5rem;margin:2rem 0;}
+.snote::before{content:'nota naukowa';font-family:var(--mono);font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--cyan);text-transform:uppercase;
+  display:block;margin-bottom:0.5rem;}
+.snote p{font-size:0.93rem;color:var(--text-soft);margin:0;text-align:left;}
+
+.divider{text-align:center;margin:4rem 0;color:var(--gold-dim);
+  letter-spacing:0.8em;font-size:0.7rem;}
+
+/* ── INTERACTIVE ── */
+.interactive-wrap{margin:5rem 0;}
+.interactive-wrap.visible{}
+
+.interactive-header{display:flex;align-items:baseline;justify-content:space-between;
+  border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:0;}
+.interactive-title{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--gold-dim);}
+.interactive-subtitle{font-family:var(--mono);font-size:0.55rem;
+  color:var(--text-dim);letter-spacing:0.1em;}
+
+/* ── TABS ── */
+.tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(255,252,245,0.7);}
+.tab-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text-dim);background:none;border:none;
+  padding:0.7rem 1.2rem;cursor:pointer;
+  border-bottom:2px solid transparent;position:relative;top:1px;
+  transition:color 0.2s,border-color 0.2s;}
+.tab-btn:hover{color:var(--gold-dim);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── TAB PANELS ── */
+.chart-panel{display:none;}
+.chart-panel.active{display:block;}
+.charts-container{position:relative;}
+
+/* ── CANVAS ── */
+.canvas-wrap{position:relative;background:var(--panel);border:1px solid var(--border);border-bottom:none;box-shadow:inset 0 1px 4px rgba(140,100,30,0.04);}
+canvas{display:block;width:100%;height:320px;}
+
+/* ── CONTROLS ── */
+.controls{display:flex;flex-wrap:wrap;gap:1.5rem;padding:1.2rem 1.5rem;
+  background:rgba(245,240,232,0.8);border:1px solid var(--border);border-top:none;border-bottom:none;}
+.ctrl{display:flex;flex-direction:column;gap:0.4rem;min-width:110px;flex:1;}
+.ctrl-label{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--text-dim);}
+
+/* ── RANGE SLIDER ── */
+input[type=range]{-webkit-appearance:none;width:100%;height:2px;
+  background:var(--border);outline:none;cursor:pointer;border-radius:0;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;
+  background:var(--gold);border-radius:50%;cursor:pointer;
+  box-shadow:0 0 6px rgba(200,168,75,0.6);transition:transform 0.1s;}
+input[type=range]::-webkit-slider-thumb:active{transform:scale(1.3);}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--gold);
+  border-radius:50%;cursor:pointer;border:none;}
+
+.ctrl-val{font-family:var(--mono);font-size:0.68rem;color:var(--gold);letter-spacing:0.05em;}
+.chart-desc{font-family:var(--body);font-style:italic;font-size:0.84rem;
+  color:var(--text-soft);background:rgba(255,252,245,0.9);padding:0.9rem 1.5rem;
+  border:1px solid var(--border);border-top:none;line-height:1.6;}
+
+/* ── SIDE NAV ── */
+.sidenav{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:0.6rem;z-index:500;}
+.sndot{width:5px;height:5px;border-radius:50%;background:var(--text-dim);
+  cursor:pointer;transition:background 0.3s,transform 0.3s;position:relative;}
+.sndot.active{background:var(--gold);transform:scale(1.6);}
+.sndot:hover::after{content:attr(data-tip);position:absolute;right:14px;top:50%;
+  transform:translateY(-50%);font-family:var(--mono);font-size:0.55rem;
+  letter-spacing:0.1em;white-space:nowrap;color:var(--gold);
+  background:rgba(255,252,245,0.95);border:1px solid var(--border);padding:0.2rem 0.5rem;
+  box-shadow:0 2px 8px rgba(140,100,30,0.12);}
+
+/* ── FOOTER ── */
+.foot{border-top:1px solid var(--border);padding:3rem 2rem;max-width:var(--max);
+  margin:0 auto;font-family:var(--mono);font-size:0.6rem;
+  color:var(--text-soft);letter-spacing:0.08em;line-height:2;}
+
+@media(max-width:768px){
+  .hero{padding:6rem 1.5rem 4rem;}
+  .main{padding:4rem 1.5rem 6rem;}
+  .sidenav{display:none;}
+  .controls{gap:1rem;}
+  .hero-katex .katex{font-size:0.85rem;}
+}
+
+/* ══ TAB SYSTEM — opacity trick, always full height in DOM ══ */
+.iw-tabs { display:flex; flex-wrap:wrap; border-bottom:1px solid var(--border); background:rgba(255,252,245,.7); }
+.iw-tab  { font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase;
+           color:var(--text-dim); background:none; border:none; padding:.7rem 1.1rem; cursor:pointer;
+           border-bottom:2px solid transparent; position:relative; top:1px; transition:color .2s; }
+.iw-tab:hover { color:var(--gold-dim); }
+.iw-tab.on    { color:var(--gold); border-bottom-color:var(--gold); }
+
+/* Panels stacked — inactive = invisible but laid out */
+.iw-stack { position:relative; }
+.iw-panel { }
+.iw-panel:not(.on) { display:none; }
+
+.iw-svg   { display:block; width:100%; background:var(--panel);
+            border:1px solid var(--border); border-bottom:none; }
+.iw-ctrl  { display:flex; flex-wrap:wrap; gap:1.4rem; padding:1.1rem 1.4rem;
+            background:rgba(245,240,232,.8); border:1px solid var(--border); border-top:none; border-bottom:none; }
+.iw-c     { display:flex; flex-direction:column; gap:.4rem; min-width:110px; flex:1; }
+.iw-cl    { font-family:var(--mono); font-size:.55rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); }
+.iw-cv    { font-family:var(--mono); font-size:.68rem; color:var(--gold); }
+input[type=range] { -webkit-appearance:none; width:100%; height:2px; background:var(--border); cursor:pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:13px; height:13px;
+  background:var(--gold); border-radius:50%; box-shadow:0 0 5px rgba(138,106,26,.4); }
+input[type=range]::-moz-range-thumb { width:13px; height:13px; background:var(--gold); border-radius:50%; border:none; }
+.iw-desc  { font-style:italic; font-size:.84rem; color:var(--text-soft); background:rgba(255,252,245,.9);
+            padding:.9rem 1.4rem; border:1px solid var(--border); border-top:none; line-height:1.6; }
+
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<nav class="sidenav" id="sn"></nav>
+
+<header class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <p class="hero-eyebrow">Esej naukowy · Marzec 2026</p>
+  <h1>YHWH<br>i <em>Entropia</em></h1>
+  <p class="hero-sub">O stawaniu się rzeczywistości — od geometrii przestrzeni fazowej do świadomości jako struktury dysypatywnej</p>
+  <div class="hero-katex">
+    $S = k_B \ln \Omega \quad\cdot\quad \Delta x \cdot \Delta p \geq \dfrac{\hbar}{2} \quad\cdot\quad \frac{1}{\lambda} = R_H \!\left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right)$
+  </div>
+  <div class="hero-scroll">Przewijaj<div class="hero-scroll-line"></div></div>
+</header>
+
+<main class="main">
+
+  <!-- §1 -->
+  <section class="essay-section" id="s1">
+    <div class="section-marker"><span class="section-marker-num">§ 01</span><div class="section-marker-line"></div></div>
+    <h2>YHWH jako ontologia processualna —<br><em>termodynamika nieequilibrium</em></h2>
+    <p>Imię Boga zapisywane w tradycji hebrajskiej jako YHWH bywa interpretowane jako forma czasownika „być" — lecz nie w jego klasycznym, statycznym sensie. Chodzi raczej o formę niedokonaną: „będę, który będę", „staję się, którym się staję". Rzeczywistość w tej perspektywie nie jest strukturą zamkniętą — jest dynamicznym polem przemian, procesualnością bez zatrzymania.</p>
+    <p>Ilya Prigogine, laureat Nagrody Nobla z chemii w roku 1977, odkrył coś, co rzuca na tę intuicję nieoczekiwane światło naukowe. Układy daleko od równowagi termodynamicznej nie tylko nie rozpadają się — one spontanicznie wytwarzają struktury o rosnącej złożoności. Prigogine nazwał je strukturami dysypatywnymi. Warunkiem ich istnienia jest stały przepływ energii przez układ — nie magazynowanie, lecz nieprzerwalny ruch.</p>
+    <div class="pq"><p>Komórka, płomień świecy, huragan — wszystkie są strukturami dysypatywnymi. Istnieją wyłącznie jako procesy. Zatrzymany huragan to nie spokojny huragan — to brak huraganu.</p></div>
+    <p>Jeśli byt istnieje wyłącznie przez nieustanny przepływ, to YHWH jako „hayah asher hayah" jest opisem tej samej zasady na poziomie fundamentalnym: rzeczywistości, która istnieje w akcie trwającego gradientu, nigdy jako zamknięty obiekt.</p>
+    <div class="fbox" data-label="Prigogine 1977">
+      $$\frac{dS}{dt} = \frac{d_i S}{dt} + \frac{d_e S}{dt} \geq 0$$
+      <span class="fcomment">Całkowita zmiana entropii układu otwartego = produkcja wewnętrzna + wymiana z otoczeniem. Tylko suma musi być nieujemna — lokalne obniżenie S jest możliwe przy wystarczającym gradiencie zewnętrznym.</span>
+    </div>
+    <p>Biblijna metafora „ciernia i ostu" nabiera w tej perspektywie precyzji fizycznej. Budowanie struktury to lokalne zmniejszenie $\Omega$ — liczby mikrostanów dostępnych układowi. Koszt musi być ponoszony gdzieś w otoczeniu. Cierpień i ostu nie są karą — są fizycznym rachunkiem za utrzymanie gradientu.</p>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §2 -->
+  <section class="essay-section" id="s2">
+    <div class="section-marker"><span class="section-marker-num">§ 02</span><div class="section-marker-line"></div></div>
+    <h2>Geometria przestrzeni fazowej —<br><em>czym naprawdę jest entropia</em></h2>
+    <p>Ludwig Boltzmann w roku 1877 zapisał na tablicy równanie, które kilkadziesiąt lat po jego śmierci zostanie wyryte na jego nagrobku w Wiedniu. Entropia $S$ jest iloczynem stałej Boltzmanna i logarytmu naturalnego z liczby $\Omega$ — liczby mikrostanów, przez które może być zrealizowany dany stan makroskopowy układu. To jest definicja kompletna i nie wymaga żadnego dodatku.</p>
+    <p>Entropia nie jest siłą. Nie jest dążnością. Nie jest kosmicznym wyrokiem ciągnącym rzeczy ku rozpadowi. Jest miarą statystyczną — opisem geometrii przestrzeni fazowej. Układ „zmierza ku większej entropii" wyłącznie dlatego, że stanów o wysokim $\Omega$ jest przytłaczająco więcej niż stanów o niskim $\Omega$. Jeśli system wędruje losowo po przestrzeni fazowej, prawie zawsze trafi w rejon gęsto zaludniony przez mikrostany — nie dlatego, że jakaś siła go tam ciągnie, lecz dlatego, że tam jest po prostu więcej miejsca.</p>
+    <div class="snote"><p>Mówienie o entropii jako „sile rozpadu" jest błędem kategorii. To tak, jakby powiedzieć, że kostka do gry „chce" wypaść na szóstkę najrzadziej. Kostka nie chce niczego — jest ich po prostu mniej możliwych kombinacji prowadzących do szóstki. Determinantem dynamiki jest gradient różnicy potencjałów, nie entropia jako aktywny aktor.</p></div>
+    <div class="fbox" data-label="Boltzmann 1877">
+      $$S = k_B \ln \Omega \qquad k_B = 1{,}38 \times 10^{-23}\ \frac{\text{J}}{\text{K}}$$
+      <span class="fcomment">$\Omega$ — liczba mikrostanów odpowiadających danemu stanowi makroskopowemu. Entropia rośnie, bo stanów o wysokim $\Omega$ jest statystycznie więcej — geometria przestrzeni fazowej, nie siła.</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §3 -->
+  <section class="essay-section" id="s3">
+    <div class="section-marker"><span class="section-marker-num">§ 03</span><div class="section-marker-line"></div></div>
+    <h2>Zasada nieoznaczoności<br>jako <em>fundament struktury</em></h2>
+    <p>Elektrony w atomach nie zajmują sztywnych orbit w sensie klasycznym — są opisane przez rozkłady prawdopodobieństwa wynikające z mechaniki kwantowej. Ale tekst, który zatrzymuje się na tej obserwacji, zatrzymuje się o krok za wcześnie. Kluczowe pytanie brzmi: dlaczego elektron nie „spada" na najniższy możliwy poziom energetyczny i nie osiąga klasycznej równowagi przy zerowej energii kinetycznej?</p>
+    <p>Odpowiedź daje zasada nieoznaczoności Heisenberga. Zerowa energia kinetyczna wymagałaby nieskończonej precyzji lokalizacji elektronu — co narusza zasadę nieoznaczoności. Atom wodoru w stanie podstawowym nie może mieć niższej energii nie dlatego, że jakaś siła go trzyma — dlatego, że wymagałoby to sprecyzowania zarówno położenia jak i pędu poniżej granicy dozwolonej przez strukturę przestrzeni fazowej kwantowej.</p>
+    <div class="pq"><p>Porządek na poziomie atomowym jest wbudowany w geometrię przestrzeni fazowej przez zasadę nieoznaczoności — nie przez zewnętrzną interwencję. Pewne stany są strukturalnie wykluczone z przestrzeni możliwości.</p></div>
+    <div class="fbox" data-label="Heisenberg 1927">
+      $$\Delta x \cdot \Delta p \geq \frac{\hbar}{2} \qquad \Delta E \cdot \Delta t \geq \frac{\hbar}{2}$$
+      <span class="fcomment">Zasada nieoznaczoności nie jest ograniczeniem pomiaru — jest fundamentalną własnością przestrzeni fazowej kwantowej. Stan o zerowej niepewności pędu i położenia jest strukturalnie niemożliwy.</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §4 -->
+  <section class="essay-section" id="s4">
+    <div class="section-marker"><span class="section-marker-num">§ 04</span><div class="section-marker-line"></div></div>
+    <h2>Widma jako podpis gradientu —<br><em>tożsamość jest różnicą potencjałów</em></h2>
+    <p>Każdy pierwiastek posiada charakterystyczne widmo emisyjne i absorpcyjne. Gdy elektron w atomie wodoru przeskakuje z poziomu $n=3$ na $n=2$, emituje foton o długości fali 656 nanometrów — czerwona linia $H_\alpha$, widoczna w widmie każdej gwiazdy zawierającej wodór, niezależnie od odległości. Wodór w odległości miliarda lat świetlnych ma dokładnie te same linie spektralne co wodór w laboratorium.</p>
+    <p>Jest tu ukryty wniosek epistemologiczny, który spektroskopia ujawnia z matematyczną precyzją: tożsamość pierwiastka jest opisywana przez jego charakterystyczne gradienty energetyczne — przez wzorzec skoków między poziomami kwantowymi, nie przez jego masę czy objętość. To, czym coś jest, wyraża się przez to, jak i gdzie przenosi energię.</p>
+    <div class="snote"><p>Spektroskopia jest dosłownie czytaniem gradientu. Emitowany foton ma energię równą różnicy poziomów energetycznych: $E = h\nu = E_{n_2} - E_{n_1}$. Widmo emisyjne to zapis wszystkich możliwych gradientów danego układu kwantowego — jego „podpis fazowy".</p></div>
+    <div class="fbox" data-label="Bohr 1913 / Rydberg">
+      $$\frac{1}{\lambda} = R_H \cdot Z^2 \left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right) \qquad R_H = 1{,}097 \times 10^{7}\ \text{m}^{-1}$$
+      <span class="fcomment">Każda linia spektralna jest zapisem gradientu energetycznego między dwoma stanami kwantowymi. Tożsamość pierwiastka jest unikalnym wzorcem tych gradientów.</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §5 -->
+  <section class="essay-section" id="s5">
+    <div class="section-marker"><span class="section-marker-num">§ 05</span><div class="section-marker-line"></div></div>
+    <h2>Entropia informacyjna —<br><em>Landauer i fizyczność wiedzy</em></h2>
+    <p>W roku 1948 Claude Shannon opublikował matematyczną teorię komunikacji. Miara niepewności, którą zaproponował dla źródła informacji, miała identyczną formę matematyczną co entropia termodynamiczna Boltzmanna. Shannon zapytany, dlaczego używa słowa „entropia" dla pojęcia informacyjnego, miał odpowiedzieć, że wzór jest ten sam, a nikt nie wie czym naprawdę jest entropia — więc w każdej debacie będzie miał przewagę. Żart zawierał głębszą prawdę niż się wydawało.</p>
+    <p>Rolf Landauer w roku 1961 pokazał, że ta zbieżność nie jest przypadkowa ani metaforyczna. Skasowanie jednego bitu informacji generuje co najmniej $k_B T \ln 2$ ciepła. Informacja jest fizyczna. Gradient informacyjny ma swój koszt energetyczny, którego nie można obejść żadnym sprytnym algorytmem.</p>
+    <div class="pq"><p>Propaganda nie jest tylko moralnym złem — jest termodynamicznym marnotrawstwem. Niszczy gradient informacyjny, który umożliwia efektywną koordynację układów złożonych, i zastępuje go gradientem sztucznym, którego koszt utrzymania jest wielokrotnie wyższy.</p></div>
+    <div class="fbox" data-label="Shannon 1948 / Landauer 1961">
+      $$H = -\sum_i p_i \log_2 p_i \qquad E_{\min} = k_B T \ln 2 \approx 2{,}87 \times 10^{-21}\ \text{J}\ \text{przy}\ 300\,\text{K}$$
+      <span class="fcomment">Kasowanie informacji ma nieusuwalne koszty fizyczne — informacja i entropia termodynamiczna są dwoma aspektami tej samej rzeczywistości.</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §6 -->
+  <section class="essay-section" id="s6">
+    <div class="section-marker"><span class="section-marker-num">§ 06</span><div class="section-marker-line"></div></div>
+    <h2>Świadomość jako<br><em>modulator przestrzeni fazowej</em></h2>
+    <p>Metafora świadomości jako „lokalnego wiru porządku w rzece rosnącej entropii" jest piękna i precyzyjna — ale nie wyczerpuje jej fizycznej osobliwości. Wir w rzece jest strukturą dysypatywną: istnieje kosztem przepływu rzeki, ale jednocześnie organizuje ten przepływ, tworzy lokalne gradienty ciśnienia i wpływa na inne wiry. Jest zarówno kosztem gradientu rzeki, jak i aktorem modyfikującym gradient dla innych.</p>
+    <p>Świadomość — jeśli potraktować ją poważnie jako strukturę dysypatywną mózgu — nie jest biernym obserwatorem gradientu entropii. Jest aktywnym modulatorem przestrzeni fazowej: przez wybory, przez uwagę, przez budowanie struktur informacyjnych, zmienia topografię gradientów dostępnych innym układom. Nauczyciel zmienia gradient przestrzeni poznawczej uczniów. Instytucja zaufania obniża koszt termodynamiczny koordynacji zbiorowej.</p>
+    <div class="snote"><p>Mózg ludzki zużywa około 20 watów przy masie stanowiącej 2% masy ciała. Jest strukturą dysypatywną o wyjątkowo wysokiej gęstości przepływu energii — co zgodnie z teorią Prigogine'a odpowiada możliwości utrzymywania wyjątkowo złożonych struktur stacjonarnych. Świadomość jest termodynamicznie kosztowna, bo jest termodynamicznie złożona.</p></div>
+    <p>Świadomość jest jedynym układem dysypatywnym, który może świadomie projektować własne warunki brzegowe. To jest fizyczny opis wolności: nie brak determinizmu, lecz zdolność do rekonfiguracji własnej przestrzeni fazowej przez wewnętrzny akt wyboru kierunku gradientu.</p>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- §7 -->
+  <section class="essay-section" id="s7">
+    <div class="section-marker"><span class="section-marker-num">§ 07</span><div class="section-marker-line"></div></div>
+    <h2>Kosmiczny gradient —<br><em>strzałka czasu i jej źródło</em></h2>
+    <p>Strzałka czasu — asymetria między przeszłością a przyszłością — ma swoje źródło w niezwykle niskiej entropii Wszechświata tuż po Wielkim Wybuchu. Roger Penrose szacował, że prawdopodobieństwo wylosowania stanu o tak niskim $\Omega$ jak stan zaraz po Wielkim Wybuchu wynosi $1$ do $10^{10^{123}}$. Liczba ta przekracza liczbę cząstek w obserwowalnym Wszechświecie o dziesiątki rzędów wielkości.</p>
+    <p>Słońce nie jest źródłem energii w sensie absolutnym. Jest pośrednikiem między niską entropią jądrową a wysoką entropią promieniowania podczerwonego emitowanego przez Ziemię w przestrzeń kosmiczną. Życie na Ziemi istnieje w tym gradiencie jak turbina w strumieniu wody — przetwarzając różnicę potencjałów między gorącym Słońcem a zimną przestrzenią kosmiczną w lokalne struktury stacjonarne o rosnącej złożoności.</p>
+    <div class="pq"><p>Cały gradient, który napędza wszystkie procesy — gwiazdy, życie, świadomość — jest rozładowywaniem pierwotnej asymetrii Wielkiego Wybuchu. Jesteśmy echem tamtego niskiego $\Omega$, rozbrzmiewającym przez 13,8 miliarda lat.</p></div>
+    <p>Fizyk Eric Schneider sformułował to prowokacyjnie: życie nie walczy z entropią — życie przyspiesza jej globalny wzrost przez budowanie lokalnych struktur dysypatywnych o rosnącej wydajności rozpraszania. Człowiek budujący kulturę i instytucje nie jest anomalią w kosmosie — jest jego najbardziej zaawansowanym narzędziem realizacji gradientu.</p>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  
+
+  <div class="interactive-wrap" id="viz">
+    <div class="interactive-header">
+      <span class="interactive-title">Wizualizacje interaktywne</span>
+      <span class="interactive-subtitle">Modyfikuj parametry — obserwuj mechanizm</span>
+    </div>
+
+    <div class="iw-tabs">
+      <button class="iw-tab on"  data-p="p1">Przestrzeń fazowa</button>
+      <button class="iw-tab"     data-p="p2">Gradient &amp; Fala</button>
+      <button class="iw-tab"     data-p="p3">Widmo kwantowe</button>
+      <button class="iw-tab"     data-p="p4">Entropia inf.</button>
+      <button class="iw-tab"     data-p="p5">Skala temperatur</button>
+    </div>
+
+    <div class="iw-stack">
+
+      <!-- P1 Maxwell-Boltzmann -->
+      <div class="iw-panel on" id="p1">
+        <svg id="g1" class="iw-svg" height="320"></svg>
+        <div class="iw-ctrl">
+          <div class="iw-c"><span class="iw-cl">Temperatura T [K]</span>
+            <input type="range" id="r1T" min="100" max="2000" value="600">
+            <span class="iw-cv" id="d1T">600 K</span></div>
+          <div class="iw-c"><span class="iw-cl">Gradient G [%]</span>
+            <input type="range" id="r1G" min="0" max="100" value="0">
+            <span class="iw-cv" id="d1G">0 %</span></div>
+        </div>
+        <div class="iw-desc">Rozkład Maxwella-Boltzmanna prędkości cząstek gazu. Przy G=0 przestrzeń fazowa jest izotropowa. Gradient G polaryzuje rozkład — pewne prędkości stają się statystycznie uprzywilejowane.</div>
+      </div>
+
+      <!-- P2 Wave SOFAR -->
+      <div class="iw-panel" id="p2">
+        <svg id="g2" class="iw-svg" height="320"></svg>
+        <div class="iw-ctrl">
+          <div class="iw-c"><span class="iw-cl">Gradient ΔT</span>
+            <input type="range" id="r2T" min="0" max="100" value="40">
+            <span class="iw-cv" id="d2T">40</span></div>
+          <div class="iw-c"><span class="iw-cl">Tłumienie α</span>
+            <input type="range" id="r2a" min="0" max="80" value="20">
+            <span class="iw-cv" id="d2a">20</span></div>
+          <div class="iw-c"><span class="iw-cl">Częstość ω</span>
+            <input type="range" id="r2w" min="1" max="20" value="5">
+            <span class="iw-cv" id="d2w">5</span></div>
+        </div>
+        <div class="iw-desc">Propagacja fali w gradiencie ośrodka — model SOFAR. Gdy ΔT=0, fala rozprasza się izotropowo. Gradient chwyta falę w warstwie propagacyjnej.</div>
+      </div>
+
+      <!-- P3 Quantum spectrum -->
+      <div class="iw-panel" id="p3">
+        <svg id="g3" class="iw-svg" height="340"></svg>
+        <div class="iw-ctrl">
+          <div class="iw-c"><span class="iw-cl">Pierwiastek Z</span>
+            <input type="range" id="r3Z" min="1" max="8" value="1">
+            <span class="iw-cv" id="d3Z">H (Z=1)</span></div>
+          <div class="iw-c"><span class="iw-cl">Poziom n_max</span>
+            <input type="range" id="r3n" min="3" max="8" value="5">
+            <span class="iw-cv" id="d3n">n = 5</span></div>
+          <div class="iw-c"><span class="iw-cl">Seria emisji</span>
+            <input type="range" id="r3s" min="1" max="4" value="2">
+            <span class="iw-cv" id="d3s">Balmera</span></div>
+        </div>
+        <div class="iw-desc">Widmo emisyjne pierwiastków — zapis gradientów energetycznych między poziomami kwantowymi. Każda linia to skok elektronu. Tożsamość pierwiastka wyraża się przez gradienty, nie przez masę.</div>
+      </div>
+
+      <!-- P4 Shannon entropy -->
+      <div class="iw-panel" id="p4">
+        <svg id="g4" class="iw-svg" height="320"></svg>
+        <div class="iw-ctrl">
+          <div class="iw-c"><span class="iw-cl">Wiarygodność p</span>
+            <input type="range" id="r4p" min="1" max="99" value="70">
+            <span class="iw-cv" id="d4p">70 %</span></div>
+          <div class="iw-c"><span class="iw-cl">Szum σ [%]</span>
+            <input type="range" id="r4s" min="0" max="100" value="20">
+            <span class="iw-cv" id="d4s">20 %</span></div>
+          <div class="iw-c"><span class="iw-cl">Temperatura T [K]</span>
+            <input type="range" id="r4T" min="100" max="1000" value="300">
+            <span class="iw-cv" id="d4T">300 K</span></div>
+        </div>
+        <div class="iw-desc">Entropia informacyjna Shannona H(p) i koszt fizyczny Landauera E=kT·ln2 na bit. Szum podnosi H — każdy bit wymaga więcej energii fizycznej.</div>
+      </div>
+
+      <!-- P5 Temperature scale -->
+      <div class="iw-panel" id="p5">
+        <svg id="g5" class="iw-svg" height="460"></svg>
+        <div class="iw-desc">Logarytmiczna skala temperatur — od 0,001 K do 15 milionów K. Oś obejmuje 10 rzędów wielkości. Każdy punkt to znaczący próg fizyczny lub astronomiczny.</div>
+      </div>
+
+    </div><!-- /iw-stack -->
+  </div><!-- /viz -->
+
+
+<section class="essay-section" id="s8">
+    <div class="section-marker"><span class="section-marker-num">§ 08</span><div class="section-marker-line"></div></div>
+    <h2>Coda: <em>gradient, który patrzy na siebie</em></h2>
+    <p>Materia, która z definicji statystycznej przebywa najczęściej w stanach o wysokim $\Omega$, potrafiła na pewien czas — przez 3,8 miliarda lat na tej jednej planecie — organizować się w struktury zdolne do refleksji nad własnym miejscem w tym procesie. To jest osobliwość, której żadna inna znana nam struktura dysypatywna nie osiągnęła.</p>
+    <p>YHWH jako „będę, który będę" — i Boltzmann jako $S = k_B \ln \Omega$ — opisują tę samą rzeczywistość z dwóch stron tej samej granicy. Jeden mówi językiem objawienia, drugi językiem równań. Oba mówią: rzeczywistość jest procesem, nie bytem. Tożsamość jest gradientem, nie substancją.</p>
+    <div class="pq"><p>Świadomość jest gradientem, który patrzy na siebie. I właśnie to czyni historię życia tak osobliwą w kosmicznej skali — nie rozmiar, lecz zdolność do refleksji nad własnym miejscem w rozładowywaniu pierwotnej asymetrii Wielkiego Wybuchu.</p></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div>© 2026 · Esej naukowy · CC BY-NC-ND 4.0 · Niekomercyjne cytowanie z podaniem autora dozwolone</div>
+  <div>Źródła: Boltzmann 1877 · Prigogine 1977 · Heisenberg 1927 · Shannon 1948 · Landauer 1961 · Penrose 2004</div>
+</footer>
+
+
+<script>
+'use strict';
+const PI = Math.PI, TAU = 2*PI;
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const G = id => document.getElementById(id);
+
+// SVG namespace helper
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, v));
+  return el;
+}
+
+// Get SVG viewbox width (always reliable — SVG fills container via CSS width:100%)
+function svgW(svgId) {
+  const el = G(svgId);
+  return el.getBoundingClientRect().width || el.parentElement.clientWidth || 700;
+}
+
+// Replace all children of SVG element
+function setSVG(id, fn) {
+  const svg = G(id);
+  const W = svgW(id);
+  const H = +svg.getAttribute('height') || 320;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = '';
+  fn(svg, W, H);
+}
+
+// ── COLOR CONSTANTS ──────────────────────────
+const CG = '#8a6a1a', CS = '#6a5a3a', CD = '#c0ab88';
+const CC = '#1a6e8a', CR = '#8a2a10', CB = '#faf7f2';
+const CB2 = 'rgba(140,100,30,0.18)';
+
+// ── SVG TEXT helper ──────────────────────────
+function t(svg, x, y, txt, attrs={}) {
+  const el = svgEl('text', {x, y, ...attrs});
+  el.textContent = txt;
+  svg.appendChild(el);
+}
+function line(svg, x1,y1,x2,y2,attrs={}) {
+  svg.appendChild(svgEl('line', {x1,y1,x2,y2,...attrs}));
+}
+function rect(svg, x,y,w,h,attrs={}) {
+  svg.appendChild(svgEl('rect', {x,y,width:w,height:h,...attrs}));
+}
+function circle(svg, cx,cy,r,attrs={}) {
+  svg.appendChild(svgEl('circle', {cx,cy,r,...attrs}));
+}
+function path(svg, d, attrs={}) {
+  svg.appendChild(svgEl('path', {d,...attrs}));
+}
+function polyline(svg, pts, attrs={}) {
+  svg.appendChild(svgEl('polyline', {points:pts.map(([x,y])=>`${x},${y}`).join(' '), ...attrs}));
+}
+
+function mkDefs(svg, items) {
+  const defs = svgEl('defs', {});
+  items.forEach(el => defs.appendChild(el));
+  svg.appendChild(defs);
+}
+
+function linGrad(id, x1,y1,x2,y2, stops) {
+  const g = svgEl('linearGradient', {id,x1,y1,x2,y2, gradientUnits:'userSpaceOnUse'});
+  stops.forEach(([offset,color]) => {
+    const s = svgEl('stop', {}); s.setAttribute('offset',offset); s.setAttribute('stop-color',color);
+    g.appendChild(s);
+  });
+  return g;
+}
+
+function gridLines(svg, pad, W, H, rows=4) {
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+  for(let i=1;i<=rows;i++) {
+    const y = pad.t + ph*(1-i/rows);
+    line(svg, pad.l,y, pad.l+pw,y, {stroke:CB2,'stroke-width':'.5'});
+  }
+}
+
+function axes(svg, pad, W, H, xl, yl) {
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+  const font = "9px 'Share Tech Mono',monospace";
+  line(svg, pad.l,pad.t, pad.l,pad.t+ph+4, {stroke:CS,'stroke-width':'1'});
+  line(svg, pad.l-4,pad.t+ph, pad.l+pw,pad.t+ph, {stroke:CS,'stroke-width':'1'});
+  t(svg, pad.l+pw/2, H-3, xl, {'text-anchor':'middle','fill':CS,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+  const tl = svgEl('text', {x:'13',y:`${pad.t+ph/2}`,'text-anchor':'middle','fill':CS,'font-size':'10','font-family':"'Share Tech Mono',monospace",'transform':`rotate(-90,13,${pad.t+ph/2})`});
+  tl.textContent = yl; svg.appendChild(tl);
+}
+
+// ═══════════════════════════════════════════
+// CHART 1 — Maxwell-Boltzmann
+// ═══════════════════════════════════════════
+function drawG1() {
+  const T = +G('r1T').value, Gv = G('r1G').value/100;
+  G('d1T').textContent = T+' K';
+  G('d1G').textContent = Math.round(Gv*100)+' %';
+
+  setSVG('g1', (svg, W, H) => {
+    const kB=1.38e-23, m=6.64e-26;
+    const a2=kB*T/m, vp=Math.sqrt(2*a2), vmax=vp*3.5;
+    const pad={l:52,r:24,t:30,b:44};
+    const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+    const mb=v=>4*PI*v*v*Math.exp(-v*v/(2*a2))/Math.pow(2*PI*a2,1.5);
+    const mbG=v=>mb(v)*(1+Gv*Math.sin(PI*v/vmax));
+    let mx=1e-99;
+    const bins=100;
+    for(let i=0;i<bins;i++) mx=Math.max(mx,mbG((i+.5)*vmax/bins));
+
+    rect(svg,0,0,W,H,{fill:CB});
+    gridLines(svg,pad,W,H);
+
+    // Fill gradient
+    const g=linGrad('mbFill',pad.l,pad.t,pad.l,pad.t+ph,[['0%','rgba(138,106,26,.18)'],['100%','rgba(138,106,26,.02)']]);
+    mkDefs(svg,[g]);
+
+    // Compute polyline points
+    const pts=[];
+    for(let i=0;i<bins;i++){
+      const v=(i+.5)*vmax/bins;
+      pts.push([pad.l+v/vmax*pw, pad.t+ph*(1-mbG(v)/mx)]);
+    }
+
+    // Area fill
+    const fillPts=[[pad.l,pad.t+ph],...pts,[pad.l+pw,pad.t+ph]];
+    path(svg,'M'+fillPts.map(([x,y])=>`${x.toFixed(1)},${y.toFixed(1)}`).join('L')+'Z',{fill:'url(#mbFill)',stroke:'none'});
+    // Line
+    polyline(svg,pts,{fill:'none',stroke:CG,'stroke-width':'2','stroke-linejoin':'round'});
+
+    // vp line
+    const vpx=pad.l+vp/vmax*pw;
+    line(svg,vpx,pad.t,vpx,pad.t+ph,{stroke:'rgba(138,106,26,.35)','stroke-width':'1','stroke-dasharray':'4,6'});
+    t(svg,vpx,pad.t-5,'v_p',{'text-anchor':'middle',fill:'rgba(138,106,26,.6)','font-size':'9','font-family':"'Share Tech Mono',monospace"});
+
+    // Axis ticks
+    for(let i=0;i<=4;i++){
+      t(svg,pad.l+i*pw/4,pad.t+ph+14,Math.round(i*vmax/4),{'text-anchor':'middle',fill:CD,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+      t(svg,pad.l-5,pad.t+ph*(1-i/4)+3,(i/4).toFixed(2),{'text-anchor':'end',fill:CD,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    }
+    axes(svg,pad,W,H,'prędkość v [m/s]','f(v)');
+
+    // Gradient overlay
+    if(Gv>0.02){
+      const go=linGrad('goFill',pad.l,0,pad.l+pw,0,[['0%','rgba(26,110,138,0)'],[`50%`,`rgba(26,110,138,${(Gv*.08).toFixed(3)})`],['100%','rgba(26,110,138,0)']]);
+      mkDefs(svg,[go]);
+      rect(svg,pad.l,pad.t,pw,ph,{fill:'url(#goFill)'});
+    }
+
+    t(svg,W-pad.r,pad.t+14,`T=${T}K  G=${Math.round(Gv*100)}%`,{'text-anchor':'end',fill:CG,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+  });
+}
+G('r1T').oninput = drawG1;
+G('r1G').oninput = drawG1;
+
+// ═══════════════════════════════════════════
+// CHART 2 — Wave / SOFAR  (animated SVG polyline)
+// ═══════════════════════════════════════════
+let wPh=0, wRaf=null, wOn=false;
+
+function drawWaveFrame() {
+  if(!wOn){wRaf=null;return;}
+  const dT=G('r2T').value/100, al=G('r2a').value/200, om=+G('r2w').value;
+
+  setSVG('g2', (svg, W, H) => {
+    const pad={l:20,r:20,t:30,b:20};
+    const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+    rect(svg,0,0,W,H,{fill:CB});
+
+    if(dT>0.05){
+      const bg=linGrad('waveBg',0,pad.t,0,pad.t+ph,[[`0%`,`rgba(26,110,138,${(dT*.07).toFixed(3)})`],[`${(45).toFixed(0)}%`,`rgba(26,110,138,${(dT*.16).toFixed(3)})`],[`${(55).toFixed(0)}%`,`rgba(26,110,138,${(dT*.04).toFixed(3)})`],[`100%`,`rgba(26,110,138,${(dT*.01).toFixed(3)})`]]);
+      mkDefs(svg,[bg]);
+      rect(svg,pad.l,pad.t,pw,ph,{fill:'url(#waveBg)'});
+      const sy=pad.t+ph*(.5-dT*.15);
+      line(svg,pad.l,sy,pad.l+pw,sy,{stroke:`rgba(26,110,138,${(dT*.5).toFixed(3)})`,'stroke-width':'.8','stroke-dasharray':'5,9'});
+      t(svg,pad.l+8,sy-5,'kanał SOFAR',{fill:`rgba(26,110,138,${(dT*.7).toFixed(3)})`,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    }
+
+    const nW=dT>.1?3:1;
+    for(let w=0;w<nW;w++){
+      const phOff=w*(TAU/nW), wAmp=dT>.1?1-w*.22:1;
+      const pts=[];
+      for(let xi=0;xi<=pw;xi+=2){
+        const tx=xi/pw, dmp=Math.exp(-al*tx*8);
+        const bend=dT*Math.sin(tx*PI)*ph*.18, spr=(1-dT)*ph*.06*w;
+        const y=H/2+bend+spr+Math.sin(om*tx*TAU-wPh+phOff)*ph*.17*dmp*wAmp;
+        pts.push([pad.l+xi,y]);
+      }
+      polyline(svg,pts,{fill:'none',stroke:w===0?CG:`rgba(138,106,26,${(.35*(1-w*.2)*dT).toFixed(3)})`,'stroke-width':w===0?'2':'.8'});
+    }
+
+    t(svg,W-pad.r,pad.t+14,`ΔT=${G('r2T').value}  α=${G('r2a').value}  ω=${om}`,{'text-anchor':'end',fill:CG,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+  });
+
+  wPh+=0.045;
+  wRaf=requestAnimationFrame(drawWaveFrame);
+}
+function startWave(){wOn=true;if(!wRaf)wRaf=requestAnimationFrame(drawWaveFrame);}
+function stopWave(){wOn=false;}
+G('r2T').oninput=()=>G('d2T').textContent=G('r2T').value;
+G('r2a').oninput=()=>G('d2a').textContent=G('r2a').value;
+G('r2w').oninput=()=>G('d2w').textContent=G('r2w').value;
+
+// ═══════════════════════════════════════════
+// CHART 3 — Quantum spectrum
+// ═══════════════════════════════════════════
+const ELEM=['H','He','Li','Be','B','C','N','O'];
+const SERIES=['Lymana','Balmera','Paschena','Bracketta'];
+const SN=[1,2,3,4];
+const RH=1.097e7;
+
+function wlRGB(nm){
+  let r,g,b;
+  if(nm>=380&&nm<440){r=(440-nm)/60;g=0;b=1;}
+  else if(nm>=440&&nm<490){r=0;g=(nm-440)/50;b=1;}
+  else if(nm>=490&&nm<510){r=0;g=1;b=(510-nm)/20;}
+  else if(nm>=510&&nm<580){r=(nm-510)/70;g=1;b=0;}
+  else if(nm>=580&&nm<645){r=1;g=(645-nm)/65;b=0;}
+  else if(nm>=645&&nm<=780){r=1;g=0;b=0;}
+  else{r=.4;g=.4;b=.4;}
+  const a=nm<420?.3+(nm-380)/40*.7:nm>700?.3+(780-nm)/80*.7:1;
+  return `rgba(${~~(r*255)},${~~(g*255)},${~~(b*255)},${a.toFixed(2)})`;
+}
+
+function drawG3(){
+  const Z=+G('r3Z').value, nMax=+G('r3n').value, si=G('r3s').value-1, n1=SN[si];
+  G('d3Z').textContent=ELEM[Z-1]+' (Z='+Z+')';
+  G('d3n').textContent='n = '+nMax;
+  G('d3s').textContent='Seria '+SERIES[si];
+
+  setSVG('g3',(svg,W,H)=>{
+    const pl=58,pr=20,pt=44,pb=52;
+    const pw=W-pl-pr, ph=H-pt-pb;
+    const Efn=n=>-13.6*Z*Z/(n*n);
+    const eMin=Efn(nMax), eRng=Efn(1)-eMin;
+    const ey=n=>pt+ph*(1-(Efn(n)-eMin)/eRng);
+    const barY=pt+ph*.14, barH=ph*.36;
+
+    rect(svg,0,0,W,H,{fill:CB});
+
+    // Spectrum gradient
+    const stops=[];
+    for(let nm=380;nm<=780;nm+=4) stops.push([`${((nm-380)/400*100).toFixed(1)}%`,wlRGB(nm)]);
+    const sg=linGrad('specG',pl,0,pl+pw,0,stops);
+    mkDefs(svg,[sg]);
+    rect(svg,pl,barY,pw,barH,{fill:'url(#specG)',opacity:'.88'});
+    rect(svg,pl,barY,pw,barH,{fill:'rgba(250,247,242,.5)'});
+
+    // Energy levels
+    for(let n=1;n<=nMax;n++){
+      const y=ey(n), col=n===1?CG:'rgba(138,106,26,.35)';
+      line(svg,pl,y,pl+48,y,{stroke:col,'stroke-width':n===1?'1.5':'.8'});
+      t(svg,pl-4,y+3.5,`n=${n}`,{'text-anchor':'end',fill:'rgba(138,106,26,.7)','font-size':'9','font-family':"'Share Tech Mono',monospace"});
+      t(svg,pl+52,y+3.5,`${Efn(n).toFixed(1)}eV`,{fill:'rgba(138,106,26,.4)','font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    }
+
+    // Transitions
+    for(let n2=n1+1;n2<=nMax;n2++){
+      const lnm=1e9/(RH*Z*Z*(1/(n1*n1)-1/(n2*n2)));
+      const col=wlRGB(lnm), vis=lnm>=380&&lnm<=780;
+      const ax=pl+60+(n2-n1-1)*22;
+      line(svg,ax,ey(n2),ax,ey(n1),{stroke:vis?col:'rgba(180,180,180,.2)','stroke-width':'1','stroke-dasharray':'2,4'});
+      if(vis){
+        const lx=pl+(lnm-380)/400*pw;
+        line(svg,lx,barY,lx,barY+barH,{stroke:col,'stroke-width':'2.5'});
+        t(svg,lx,barY+barH+13,`${~~lnm}nm`,{'text-anchor':'middle',fill:col,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+      }
+    }
+
+    // Axes/labels
+    line(svg,pl,pt,pl,pt+ph,{stroke:CS,'stroke-width':'.8'});
+    line(svg,pl,pt+ph,pl+pw,pt+ph,{stroke:CS,'stroke-width':'.8'});
+    t(svg,pl+pw/2,H-4,'długość fali λ [nm]',{'text-anchor':'middle',fill:CS,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+    const tl=svgEl('text',{x:'13',y:`${pt+ph/2}`,'text-anchor':'middle',fill:CS,'font-size':'10','font-family':"'Share Tech Mono',monospace",'transform':`rotate(-90,13,${pt+ph/2})`});
+    tl.textContent='energia [eV]'; svg.appendChild(tl);
+    t(svg,W-pr,pt-10,`${ELEM[Z-1]} · Seria ${SERIES[si]} · n₁=${n1}`,{'text-anchor':'end',fill:CG,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+  });
+}
+G('r3Z').oninput=drawG3;
+G('r3n').oninput=drawG3;
+G('r3s').oninput=drawG3;
+
+// ═══════════════════════════════════════════
+// CHART 4 — Shannon entropy
+// ═══════════════════════════════════════════
+function Hbit(p){return(p<=0||p>=1)?0:-(p*Math.log2(p)+(1-p)*Math.log2(1-p));}
+
+function drawG4(){
+  const p0=G('r4p').value/100, noise=G('r4s').value/100, T=+G('r4T').value;
+  G('d4p').textContent=G('r4p').value+' %';
+  G('d4s').textContent=G('r4s').value+' %';
+  G('d4T').textContent=T+' K';
+  const Elv=(1.38e-23*T*Math.log(2)/1.6e-19);
+  const pn=clamp(p0+noise*.4*Math.sin(p0*17+noise*13),.01,.99);
+
+  setSVG('g4',(svg,W,H)=>{
+    const pad={l:52,r:148,t:30,b:44};
+    const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+    rect(svg,0,0,W,H,{fill:CB});
+    gridLines(svg,pad,W,H);
+
+    // H(p) fill
+    const fg=linGrad('hFill',pad.l,pad.t,pad.l,pad.t+ph,[['0%','rgba(138,106,26,.12)'],['100%','rgba(138,106,26,.01)']]);
+    mkDefs(svg,[fg]);
+    const pts=[];
+    for(let i=0;i<=200;i++){const p=i/200;pts.push([pad.l+p*pw,pad.t+ph*(1-Hbit(p))]);}
+    const fillD='M'+pad.l+','+(pad.t+ph)+'L'+pts.map(([x,y])=>`${x.toFixed(1)},${y.toFixed(1)}`).join('L')+`L${pad.l+pw},${pad.t+ph}Z`;
+    path(svg,fillD,{fill:'url(#hFill)',stroke:'none'});
+    polyline(svg,pts,{fill:'none',stroke:'rgba(138,106,26,.35)','stroke-width':'1.5','stroke-linejoin':'round'});
+
+    // vlines & points
+    const px0=pad.l+p0*pw, py0=pad.t+ph*(1-Hbit(p0));
+    line(svg,px0,pad.t,px0,pad.t+ph,{stroke:'rgba(138,106,26,.3)','stroke-width':'1','stroke-dasharray':'4,6'});
+    circle(svg,px0,py0,6,{fill:CG});
+
+    const pxn=pad.l+pn*pw, pyn=pad.t+ph*(1-Hbit(pn));
+    circle(svg,pxn,pyn,5,{fill:CR});
+
+    // Ticks
+    for(let i=0;i<=4;i++){
+      t(svg,pad.l+i*pw/4,pad.t+ph+13,['0','.25','.5','.75','1'][i],{'text-anchor':'middle',fill:CD,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+      t(svg,pad.l-5,pad.t+ph*(1-i/4)+3,(i/4).toFixed(2),{'text-anchor':'end',fill:CD,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    }
+    axes(svg,pad,W,H,'prawdopodobieństwo p','H(p) [bit]');
+
+    // Sidebar
+    const ix=pad.l+pw+10, iy=pad.t+16;
+    const fnt="10px 'Share Tech Mono',monospace";
+    [[CG,`H(p₀) =`],[CG,Hbit(p0).toFixed(3)+' bit'],[CR,`H(pₙ) =`],[CR,Hbit(pn).toFixed(3)+' bit'],['rgba(138,106,26,.55)',`E_land =`],['rgba(138,106,26,.55)',Elv.toExponential(2)+' eV'],['rgba(138,106,26,.45)',`T = ${T} K`]].forEach(([col,txt],i)=>{
+      t(svg,ix,iy+i*16,txt,{fill:col,'font-size':'10','font-family':"'Share Tech Mono',monospace"});
+    });
+  });
+}
+G('r4p').oninput=drawG4;
+G('r4s').oninput=drawG4;
+G('r4T').oninput=drawG4;
+
+// ═══════════════════════════════════════════
+// CHART 5 — Temperature scale
+// ═══════════════════════════════════════════
+function drawG5(){
+  setSVG('g5',(svg,W,H)=>{
+    const pl=24,pr=24, axY=H/2;
+    const pw=W-pl-pr;
+    const logMin=Math.log10(.001), logMax=Math.log10(2e7);
+    const tx=T=>pl+(Math.log10(Math.max(T,.001))-logMin)/(logMax-logMin)*pw;
+
+    rect(svg,0,0,W,H,{fill:CB});
+
+    // Axis gradient bar
+    const tg=linGrad('tg',pl,0,pl+pw,0,[['0%','#3060cc'],['35%','#40a0cc'],['60%','#c8a830'],['80%','#cc6820'],['100%','#cc1010']]);
+    mkDefs(svg,[tg]);
+    const barEl=svgEl('rect',{x:pl,y:axY-5,width:pw,height:10,fill:'url(#tg)',rx:3,opacity:.75});
+    svg.appendChild(barEl);
+
+    // Decade ticks
+    for(let exp=Math.ceil(logMin);exp<=Math.ceil(logMax);exp++){
+      const T=Math.pow(10,exp); if(T>2e7*1.2) continue;
+      const x=tx(T);
+      line(svg,x,axY-10,x,axY+10,{stroke:CD,'stroke-width':'.8'});
+      const lbl=T>=1e6?(T/1e6).toFixed(0)+'M':T>=1e3?(T/1e3).toFixed(0)+'k':T<1?T.toFixed(3):String(T);
+      t(svg,x,axY+21,lbl,{'text-anchor':'middle',fill:CD,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    }
+
+    // Refs
+    const refs=[
+      {T:.001, lab:'Kondensat\nBosego-Einsteina', note:'.001 K', col:'#3060cc', up:true},
+      {T:2.725,lab:'Promieniowanie\ntła CMB',       note:'2.7 K',  col:'#3888aa', up:false},
+      {T:77,   lab:'Ciekły azot',                   note:'77 K',   col:'#44a0bb', up:true},
+      {T:273,  lab:'Topnienie lodu',                note:'273 K',  col:'#60a870', up:false},
+      {T:310,  lab:'Ciało człowieka',               note:'310 K',  col:'#709050', up:true},
+      {T:1811, lab:'Topnienie żelaza',              note:'1811 K', col:'#a07828', up:false},
+      {T:5778, lab:'Powierzchnia\nSłońca',          note:'5778 K', col:'#cc5818', up:true},
+      {T:2.7e4,lab:'Piorun',                        note:'27k K',  col:'#bb3810', up:false},
+      {T:1.5e7,lab:'Jądro Słońca',                  note:'15M K',  col:'#991010', up:true},
+    ];
+    const ARM=72;
+    refs.forEach(r=>{
+      const x=tx(r.T);
+      circle(svg,x,axY,5,{fill:r.col});
+      const y0=axY+(r.up?-7:7), y1=axY+(r.up?-(ARM+8):(ARM+8));
+      line(svg,x,y0,x,y1,{stroke:r.col,'stroke-width':'1','stroke-dasharray':'3,3'});
+      const ty=r.up?y1-14:y1+14;
+      t(svg,x,ty,r.note,{'text-anchor':'middle',fill:r.col,'font-size':'9','font-weight':'bold','font-family':"'Share Tech Mono',monospace"});
+      r.lab.split('\n').forEach((ln,li)=>{
+        t(svg,x,ty+(r.up?-14-li*13:14+li*13),ln,{'text-anchor':'middle',fill:r.col,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+      });
+    });
+
+    t(svg,W/2,18,'SKALA TEMPERATUR (logarytmiczna)',{'text-anchor':'middle',fill:CG,'font-size':'11','font-weight':'bold','font-family':"'Share Tech Mono',monospace"});
+    t(svg,pl,axY-10,'← zimno',{fill:CS,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+    t(svg,pl+pw,axY-10,'gorąco →',{'text-anchor':'end',fill:CS,'font-size':'9','font-family':"'Share Tech Mono',monospace"});
+  });
+}
+
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
+const DRAW = {p1:drawG1, p2:null, p3:drawG3, p4:drawG4, p5:drawG5};
+
+function switchTab(tid) {
+  document.querySelectorAll('.iw-tab').forEach(b => b.classList.toggle('on', b.dataset.p===tid));
+  document.querySelectorAll('.iw-panel').forEach(p => p.classList.toggle('on', p.id===tid));
+  stopWave();
+  if(tid==='p2') startWave();
+  else if(DRAW[tid]) DRAW[tid]();
+}
+document.querySelectorAll('.iw-tab').forEach(b => b.addEventListener('click', ()=>switchTab(b.dataset.p)));
+
+// ═══════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════
+const ro = new IntersectionObserver(
+  es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+  {threshold:.07}
+);
+document.querySelectorAll('.essay-section').forEach(el => ro.observe(el));
+
+// ═══════════════════════════════════════════
+// PROGRESS BAR
+// ═══════════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  G('bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
+
+// ═══════════════════════════════════════════
+// SIDE NAV
+// ═══════════════════════════════════════════
+const NAV_IDS=['s1','s2','s3','s4','s5','s6','s7','viz','s8'];
+const NAV_LBL=['YHWH','Boltzmann','Kwanty','Widma','Landauer','Świadomość','Kosmos','Wykresy','Coda'];
+NAV_IDS.forEach((sid,i)=>{
+  const d=document.createElement('div');
+  d.className='sndot'; d.dataset.tip=NAV_LBL[i];
+  d.onclick=()=>document.getElementById(sid)?.scrollIntoView({behavior:'smooth'});
+  G('sn').appendChild(d);
+});
+const navDots=document.querySelectorAll('.sndot');
+window.addEventListener('scroll',()=>{
+  const mid=window.scrollY+window.innerHeight/2;
+  let a=0;
+  NAV_IDS.forEach((sid,i)=>{const el=document.getElementById(sid);if(el&&el.offsetTop<=mid)a=i;});
+  navDots.forEach((d,i)=>d.classList.toggle('active',i===a));
+},{passive:true});
+
+// ═══════════════════════════════════════════
+// INIT — draw all charts immediately on load
+// SVG fills 100% width via CSS, so dimensions
+// are always reliable — no timing issues.
+// ═══════════════════════════════════════════
+window.addEventListener('load', () => {
+  drawG1();
+  drawG3();
+  drawG4();
+  drawG5();
+  // Redraw on resize
+  window.addEventListener('resize', ()=>{
+    const active = document.querySelector('.iw-panel.on')?.id;
+    if(active==='p1') drawG1();
+    else if(active==='p3') drawG3();
+    else if(active==='p4') drawG4();
+    else if(active==='p5') drawG5();
+  });
+});
+</script>
+
+</body>
+</html>
